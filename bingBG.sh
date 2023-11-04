@@ -39,24 +39,3 @@ fi
 
 exit 0
 
-######################################################
-#~/.config/systemd/user/bingBG.service
-[Unit]
-Description=Download bing wallpaper
-After=network.target
-[Service]
-Type=oneshot
-ExecStart=/home/toz/Development/bingBG.sh
-[Install]
-WantedBy=default.target
-
-#~/.config/systemd/user/bingBG.timer
-[Timer]
-Unit=bingBG.service
-OnBootSec=3min
-OnCalendar=*-*-* 00:06:00
-[Install]
-WantedBy=timers.target
-
-#systemctl --user enable bingBG.timer --now
-
