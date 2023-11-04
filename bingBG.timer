@@ -1,0 +1,11 @@
+[Unit]
+Description=Refresh bing wallpaper every morning at 6am
+
+[Timer]
+Unit=bingBG.service
+OnBootSec=3min
+#OnUnitActiveSec=700min
+OnCalendar=*-*-* 00:06:00
+
+[Install]
+WantedBy=timers.target
