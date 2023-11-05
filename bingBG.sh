@@ -36,7 +36,7 @@ if [ ! -e "$IMG_FILE_ADDRESS" ]; then
     gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMG_FILE_ADDRESS"
     
     # send the notification (reuse notification bubble if it exists)
-    NOTIF=$(cat /tmp/.GWeather-notif)
+    NOTIF=$(cat /tmp/.bingBG-notif)
     [[ -z $NOTIF ]] && NOTIF=1
     # https://gist.github.com/kiosion/40d71f765cbad0be95ae308418b83c3a
     gdbus call \
@@ -53,7 +53,7 @@ if [ ! -e "$IMG_FILE_ADDRESS" ]; then
         "[]" \
         "{}" \
         "20000" \
-    | sed 's/[^ ]* //; s/,.//' > /tmp/.GWeather-notif
+    | sed 's/[^ ]* //; s/,.//' > /tmp/.bingBG-notif
 fi
 
 exit 0
