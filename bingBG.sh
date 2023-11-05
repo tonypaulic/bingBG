@@ -34,7 +34,26 @@ if [ ! -e "$IMG_FILE_ADDRESS" ]; then
     wget -O $IMG_FILE_ADDRESS $IMG_ADDRESS
     gsettings set org.gnome.desktop.background picture-uri "file://$IMG_FILE_ADDRESS"
     gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMG_FILE_ADDRESS"
-    notify-send -i preferences-desktop-wallpaper "New background" "$IMG_COPYRIGHT"
+    
+    # send the notification (reuse notification bubble if it exists)
+    NOTIF=$(cat /tmp/.GWeather-notif)
+    [[ -z $NOTIF ]] && NOTIF=1
+    # https://gist.github.com/kiosion/40d71f765cbad0be95ae308418b83c3a
+    gdbus call \
+        --session \
+        --dest org.freedesktop.Notifications \
+        --object-path /org/freedesktop/Notifications \
+        --method org.freedesktop.Notifications.Notify \
+        -- \
+        "identifier" \
+        "$(echo $NOTIF)" \
+        "preferences-desktop-wallpaper" \
+        "New Background" \
+        "$(echo $IMG_COPYRIGHT)" \
+        "[]" \
+        "{}" \
+        "20000" \
+    | sed 's/[^ ]* //; s/,.//' > /tmp/.GWeather-notif
 fi
 
 exit 0
